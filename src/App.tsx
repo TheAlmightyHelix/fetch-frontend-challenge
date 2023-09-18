@@ -1,13 +1,38 @@
-import React from 'react';
-// import logo from './logo.svg';
-// import './App.css';
+import React, { useState } from 'react';
+import Splash from './pages/Splash';
+import DogList from './pages/DogList';
+import { interactableColors, pageStyle } from './lib/styles';
+import { logout } from './api/authAPI';
+import Button from './components/atomic/Button';
 
 function App() {
+  const [authenticated, setAuthenticated] = useState(false)
+
+  const handleLogout = () => {
+    logout()
+    setAuthenticated(false)
+  }
+
   return (
-    <div className="App">
-      <div className=' text-6xl'>
-        I am a box
-      </div>
+    <div className={pageStyle}>
+      {authenticated ?
+        <>
+          <DogList />
+          <div className='fixed bottom-4 right-8'>
+            <Button
+              onclick={handleLogout}
+              additionalStyling={interactableColors.warning}
+            >
+              LOGOUT
+            </Button>
+          </div>
+        </>
+        :
+        <Splash
+          setAuthenticated={setAuthenticated}
+        />
+      }
+
     </div>
   );
 }

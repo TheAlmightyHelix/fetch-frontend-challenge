@@ -1,51 +1,36 @@
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import App from './App';
-import Splash from './pages/Splash';
 
-test('renders splash screen on app startup', () => {
+beforeEach(() => {
   render(<App />);
+})
+
+test('renders landing screen on app startup', () => {
   const appName = screen.getByText(/Paw Finder/i);
   expect(appName).toBeInTheDocument();
-  // document.removeChild(<App/>)
 });
 
-describe('Authentication', () => {
-  test('attempt to log in with missing credentials yields erorr message', () => {
-    // setup component
-    const mockFn = jest.fn()
-    render(<Splash setAuthenticated={mockFn} />)
-    const loginBtn: HTMLButtonElement = screen.getByText(/Let's/i)
-
-    // perform action - login button click
-    act(() => {
-      loginBtn.click()
-    })
-
-    // expect error message
-    const validationErrorMsg = screen.getByText(/please enter your name and email/i);
-    expect(validationErrorMsg).toBeInTheDocument();
+test('successful log in takes the user to the DogList page', async () => {
+  // log in
+  const nameInput: HTMLInputElement = screen.getByPlaceholderText(/name/i)
+  const emailInput: HTMLInputElement = screen.getByPlaceholderText(/email/i)
+  nameInput.value = 'asdf'
+  emailInput.value = 'asfd@googl.io'
+  const loginBtn = screen.getByText(/Let's/i)
+  expect(loginBtn).toBeInstanceOf(HTMLButtonElement)
+  act(() => {
+    loginBtn.click()
   })
+  const authError = document.getElementById('auth-validation-error')
+  expect(authError?.innerText).toBeUndefined()
 
-  test('attempt to log out while auth cookie is missing/invalid', () => {
-    // setup
-    // const app = shallow(<App />)
-    const app = render(<App />);
-    act(() => {
+  await waitFor(() => {
 
-    })
-
-    const logoutBtn = screen.getByText('LOGOUT');
-
-    act(() => {
-      logoutBtn.click();
-    })
-
-    expect(alert).toBeCalled();
+    // check for DogList page
+    const magGlass = screen.getByText(/🔎/)
+    expect(magGlass).toBeInTheDocument()
   })
 
 })
 
-test('inital load dogs breed sorted by ascending order', () => {
-
-})

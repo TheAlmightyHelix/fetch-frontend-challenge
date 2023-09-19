@@ -43,7 +43,7 @@ export default function LandingPage() {
             <div className={`w-96 ${cardBaseStyle}`} onKeyDown={e => { if (e.key === 'Enter') attemptLogin() }}>
                 <input ref={nameRef} type='text' placeholder='name' className={textboxStyle} />
                 <input ref={emailRef} type='email' placeholder='email' className={textboxStyle} />
-                <div className='text-red-500 h-4'>
+                <div id="auth-validation-error" className='text-red-500 h-4'>
                     {validationError}
                 </div>
                 <Button

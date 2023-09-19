@@ -30,7 +30,7 @@ export default function SearchCriteria({ setSearchCriteria }: PropsWithChildren<
             return
         }
 
-        if (ageMin && parseFloat(ageMin) < 0) {
+        if ((ageMin && parseFloat(ageMin) < 0) || (ageMax && parseFloat(ageMax) < 0)) {
             setValidationError('age can\'t be negative')
             return
         }
@@ -41,7 +41,7 @@ export default function SearchCriteria({ setSearchCriteria }: PropsWithChildren<
         }
 
         if ((minAgeRef.current?.valueAsNumber ?? 0) > (maxAgeRef.current?.valueAsNumber ?? 0)) {
-            setValidationError('minimum age can\'t be larger than max age')
+            setValidationError('minimum age can\'t be greater than max age')
             return
         }
 

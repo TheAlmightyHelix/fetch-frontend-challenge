@@ -1,6 +1,5 @@
 import React, { PropsWithChildren } from "react";
 import { radioStyles, typography } from "../../lib/styles";
-import { SortByT } from "../../lib/types";
 
 type RadioOptionsProps = {
     groupName: string

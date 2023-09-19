@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from "react";
+import React, { PropsWithChildren } from "react";
 import { DogT } from "../lib/types";
 import { favoriteColor, oneLine, whitespaceColor } from "../lib/styles";
 

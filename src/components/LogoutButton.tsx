@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useContext } from "react";
+import React, { useContext } from "react";
 import { interactableColors } from "../lib/styles";
 import Button from "./atomic/Button";
 import { AuthContext } from "../hooks/useAuth";

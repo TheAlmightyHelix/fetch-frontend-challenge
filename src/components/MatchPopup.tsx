@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import PopupModal from "./atomic/PopupModal";
-import { DogIdT, DogT } from "../lib/types";
-import { rowStyle, typography } from "../lib/styles";
+import { DogT } from "../lib/types";
+import { typography } from "../lib/styles";
 
 type MatchPopupProps = {
     match: DogT

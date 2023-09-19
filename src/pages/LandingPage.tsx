@@ -1,34 +1,33 @@
-import React, { PropsWithChildren, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { cardBaseStyle, textboxStyle, interactableColors, typography } from "../lib/styles";
-import { login } from "../api/authAPI";
 import Button from "../components/atomic/Button";
+import { AuthContext } from "../hooks/useAuth";
 
-type SplashProps = {
-    setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
-}
 
-export default function Splash({ setAuthenticated }: PropsWithChildren<SplashProps>) {
+export default function LandingPage() {
+    const { authenticate } = useContext(AuthContext)
     const nameRef = useRef<HTMLInputElement>(null)
     const emailRef = useRef<HTMLInputElement>(null)
     const [validationError, setValidationError] = useState('')
 
 
-    const authenticate = () => {
+    const attemptLogin = () => {
         if (!nameRef.current?.value || !emailRef.current?.value) {
             setValidationError('please enter your name and email')
             return
         }
 
-        const data = {
-            name: nameRef.current?.value,
-            email: emailRef.current?.value
+        if (authenticate) {
+            authenticate({
+                name: nameRef.current?.value,
+                email: emailRef.current?.value
+            }).catch((error) => {
+                setValidationError('Unable to login. Please try again.')
+            })
         }
-
-        login(data).then(status => {
-            setAuthenticated(true)
-        }).catch((error) => {
-            setValidationError('Unable to login. Please try again.')
-        })
+        else {
+            setValidationError('Unable to login. Please refresh the page and try again.')
+        }
     }
 
     return (
@@ -41,7 +40,7 @@ export default function Splash({ setAuthenticated }: PropsWithChildren<SplashPro
                     Match with local shelter dogs
                 </p>
             </div>
-            <div className={`w-96 ${cardBaseStyle}`} onKeyDown={e => { if (e.key === 'Enter') authenticate() }}>
+            <div className={`w-96 ${cardBaseStyle}`} onKeyDown={e => { if (e.key === 'Enter') attemptLogin() }}>
                 <input ref={nameRef} type='text' placeholder='name' className={textboxStyle} />
                 <input ref={emailRef} type='email' placeholder='email' className={textboxStyle} />
                 <div className='text-red-500 h-4'>
@@ -49,7 +48,7 @@ export default function Splash({ setAuthenticated }: PropsWithChildren<SplashPro
                 </div>
                 <Button
                     additionalStyling={interactableColors.proceed}
-                    onclick={authenticate}
+                    onclick={attemptLogin}
                 >
                     Let's see some dogs!
                 </Button>

@@ -1,39 +1,30 @@
-import React, { useState } from 'react';
-import Splash from './pages/Splash';
+import React from 'react';
+import LandingPage from './pages/LandingPage';
 import DogList from './pages/DogList';
-import { interactableColors, pageStyle } from './lib/styles';
-import { logout } from './api/authAPI';
-import Button from './components/atomic/Button';
+import { pageStyle } from './lib/styles';
+import { useAuth } from './hooks/useAuth';
+import LogoutButton from './components/LogoutButton';
 
 function App() {
-  const [authenticated, setAuthenticated] = useState(false)
-
-  const handleLogout = () => {
-    logout()
-    setAuthenticated(false)
-  }
+  const { AuthContext, authenticated, authenticate, handleLogout } = useAuth()
 
   return (
-    <div className={pageStyle}>
-      {authenticated ?
-        <>
-          <DogList />
-          <div className='fixed bottom-4 right-8 z-10'>
-            <Button
-              onclick={handleLogout}
-              additionalStyling={interactableColors.warning}
-            >
-              LOGOUT
-            </Button>
-          </div>
-        </>
-        :
-        <Splash
-          setAuthenticated={setAuthenticated}
-        />
-      }
-
-    </div>
+    <AuthContext.Provider value={{
+      authenticated: authenticated,
+      authenticate: authenticate,
+      handleLogout: handleLogout
+    }}>
+      <div className={pageStyle}>
+        {authenticated ?
+          <>
+            <DogList />
+            <LogoutButton />
+          </>
+          :
+          <LandingPage />
+        }
+      </div>
+    </AuthContext.Provider>
   );
 }
 

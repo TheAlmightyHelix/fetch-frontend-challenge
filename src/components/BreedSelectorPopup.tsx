@@ -18,9 +18,10 @@ export default function BreedSelectorPopup({ options, selections, toggleSelectio
             title="Breeds"
             close={closePopup}
         >
-            <div className='flex flex-row flex-wrap gap-2'>
+            <div className='flex flex-row flex-wrap gap-2 h-5/6 overflow-auto'>
                 {options?.map((option) => (
                     <Button
+                        key={option}
                         additionalStyling={interactableColors.neutral}
                         onclick={() => { toggleSelection(option) }}
                         isOn={selections.has(option)}

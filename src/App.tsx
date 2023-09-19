@@ -17,8 +17,8 @@ function App() {
       <div className={pageStyle}>
         {authenticated ?
           <>
-            <DogList />
             <LogoutButton />
+            <DogList />
           </>
           :
           <LandingPage />

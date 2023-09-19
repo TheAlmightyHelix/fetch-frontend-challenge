@@ -19,7 +19,7 @@ describe('mal-formatted zip codes are prevented', () => {
         const validationErrorMsg = document.getElementById('search-validation-error')
         expect(validationErrorMsg?.innerText).toBeUndefined()
     })
-    test('123ab - expect error message', () => {
+    test('123ab        - expect error message', () => {
         const zipInput: HTMLInputElement = screen.getByPlaceholderText(/zip/i)
         const searchButton: HTMLButtonElement = screen.getByText(/SEARCH/)
         zipInput.value = '123ab'
@@ -27,7 +27,7 @@ describe('mal-formatted zip codes are prevented', () => {
         const validationErrorMsg = screen.getByText(/5-digit number/);
         expect(validationErrorMsg).toBeInTheDocument();
     })
-    test('12345 - expect no error message', () => {
+    test('12345        - expect no error message', () => {
         const zipInput: HTMLInputElement = screen.getByPlaceholderText(/zip/i)
         const searchButton: HTMLButtonElement = screen.getByText(/SEARCH/)
         zipInput.value = '12345'
@@ -35,7 +35,7 @@ describe('mal-formatted zip codes are prevented', () => {
         const validationErrorMsg = document.getElementById('search-validation-error')
         expect(validationErrorMsg?.innerText).toBeUndefined()
     })
-    test('123 - expect error message', () => {
+    test('123          - expect error message', () => {
         const zipInput: HTMLInputElement = screen.getByPlaceholderText(/zip/i)
         const searchButton: HTMLButtonElement = screen.getByText(/SEARCH/)
         zipInput.value = '123'
@@ -43,7 +43,7 @@ describe('mal-formatted zip codes are prevented', () => {
         const validationErrorMsg = screen.getByText(/5-digit number/);
         expect(validationErrorMsg).toBeInTheDocument();
     })
-    test('12345,67890 - expect no error message', () => {
+    test('12345,67890  - expect no error message', () => {
         const zipInput: HTMLInputElement = screen.getByPlaceholderText(/zip/i)
         const searchButton: HTMLButtonElement = screen.getByText(/SEARCH/)
         zipInput.value = '12345,67890'
@@ -51,7 +51,7 @@ describe('mal-formatted zip codes are prevented', () => {
         const validationErrorMsg = document.getElementById('search-validation-error')
         expect(validationErrorMsg?.innerText).toBeUndefined()
     })
-    test('12345,6 - expect error message', () => {
+    test('12345,6      - expect error message', () => {
         const zipInput: HTMLInputElement = screen.getByPlaceholderText(/zip/i)
         const searchButton: HTMLButtonElement = screen.getByText(/SEARCH/)
         zipInput.value = '12345,6'
@@ -68,7 +68,7 @@ describe('mal-formatted min and max ages are prevented', () => {
         render(<SearchCriteria setSearchCriteria={mockFn} />)
     })
 
-    test('min = 0 - expect no error message', () => {
+    test('min = 0           - expect no error message', () => {
         const minInput: HTMLInputElement = screen.getByPlaceholderText(/min/)
         const searchButton: HTMLButtonElement = screen.getByText(/SEARCH/)
         minInput.value = '0'
@@ -77,7 +77,7 @@ describe('mal-formatted min and max ages are prevented', () => {
         expect(validationErrorMsg?.innerText).toBeUndefined()
 
     })
-    test('min = 1.2 - expect error message', () => {
+    test('min = 1.2         - expect error message', () => {
         const minInput: HTMLInputElement = screen.getByPlaceholderText(/min/)
         const searchButton: HTMLButtonElement = screen.getByText(/SEARCH/)
         minInput.value = '1.2'
@@ -86,7 +86,7 @@ describe('mal-formatted min and max ages are prevented', () => {
         expect(validationErrorMsg).toBeInTheDocument();
     })
 
-    test('max = 0 - expect no error message', () => {
+    test('max = 0           - expect no error message', () => {
         const maxInput: HTMLInputElement = screen.getByPlaceholderText(/max/)
         const searchButton: HTMLButtonElement = screen.getByText(/SEARCH/)
         maxInput.value = '0'
@@ -95,7 +95,7 @@ describe('mal-formatted min and max ages are prevented', () => {
         expect(validationErrorMsg?.innerText).toBeUndefined()
     })
 
-    test('max = 1.2 - expect error message', () => {
+    test('max = 1.2         - expect error message', () => {
         const maxInput: HTMLInputElement = screen.getByPlaceholderText(/max/)
         const searchButton: HTMLButtonElement = screen.getByText(/SEARCH/)
         maxInput.value = '1.2'
@@ -104,7 +104,7 @@ describe('mal-formatted min and max ages are prevented', () => {
         expect(validationErrorMsg).toBeInTheDocument();
     })
 
-    test('min = -5 - expect error message', () => {
+    test('min = -5          - expect error message', () => {
         const minInput: HTMLInputElement = screen.getByPlaceholderText(/min/)
         const searchButton: HTMLButtonElement = screen.getByText(/SEARCH/)
         minInput.value = '-5'
@@ -113,7 +113,7 @@ describe('mal-formatted min and max ages are prevented', () => {
         expect(validationErrorMsg).toBeInTheDocument();
     })
 
-    test('max = -5 - expect error message', () => {
+    test('max = -5          - expect error message', () => {
         const maxInput: HTMLInputElement = screen.getByPlaceholderText(/max/)
         const searchButton: HTMLButtonElement = screen.getByText(/SEARCH/)
         maxInput.value = '-5'
@@ -131,9 +131,5 @@ describe('mal-formatted min and max ages are prevented', () => {
         act(() => { searchButton.click() })
         const validationErrorMsg = screen.getByText(/greater/);
         expect(validationErrorMsg).toBeInTheDocument();
-    })
-
-    test('', () => {
-
     })
 })

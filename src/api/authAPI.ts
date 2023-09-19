@@ -37,11 +37,5 @@ export const logout = () => {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
         },
-    }).then(res => {
-        if (!res.ok) {
-            throw res
-        }
-    }).catch(res => {
-        alert('There\' some problem with logging out')
-    })
+    }).then()
 }

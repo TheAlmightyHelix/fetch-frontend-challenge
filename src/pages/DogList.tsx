@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DogCard from "../components/DogCard";
 import SearchCriteria from "../components/SearchCriteria";
 import { DogT, SearchCriteriaT } from "../lib/types";
@@ -7,15 +7,23 @@ import { matchDog } from "../api/dogsAPI";
 import { useDogs } from "../hooks/useDogs";
 import Button from "../components/atomic/Button";
 import MatchPopup from "../components/MatchPopup";
-import PopupModal from "../components/atomic/PopupModal";
+import DogListInstructions from "../components/DogListInstructions";
+import { AuthContext } from "../hooks/useAuth";
 
 export default function DogList() {
+    const { handleLogout } = useContext(AuthContext)
     const [searchCriteria, setSearchCriteria] = useState<SearchCriteriaT>({})
     const [favorites, setFavorites] = useState(new Set<string>())
     const [match, setMatch] = useState<DogT | undefined>()
-    const [displayInstructions, setDisplayInstructions] = useState(false)
 
-    const { data, total, getNextPage, getPrevPage, hasNext, hasPrev } = useDogs(searchCriteria)
+    const { data, total, getNextPage, getPrevPage, hasNext, hasPrev, serverError } = useDogs(searchCriteria)
+
+    useEffect(() => {
+        if (serverError === 401) {
+            alert('Unable to connect to the server. Please log in again.')
+            handleLogout()
+        }
+    }, [serverError])
 
     const prev = async () => {
         if (!hasPrev()) return
@@ -53,8 +61,6 @@ export default function DogList() {
         <>
             <div className='w-full h-full flex flex-row gap-8 p-5'>
                 <div className=' relative h-full w-2/3'>
-                    {/* <p className={`mb-3 ${typography.heading}`}>How it works</p>
-                <p className={`mb-5 ${typography.body}`}>Select the dogs you like and we will match one for you to adopt</p> */}
                     <div className={` mb-4 h-12`}>
                         <div className={`flex flex-row justify-between items-start`}>
                             <div className={`flex flex-row items-start gap-4`}>
@@ -103,27 +109,7 @@ export default function DogList() {
                     />
                 </div>
 
-                <div className=''>
-                    <Button
-                        additionalStyling={interactableColors.proceed}
-                        onclick={() => { setDisplayInstructions(true) }}
-                    >
-                        😵‍💫
-                    </Button>
-                    {displayInstructions &&
-                        <PopupModal
-                            title="How it works"
-                            close={() => { setDisplayInstructions(false) }}
-                        >
-                            <div className="p-3">
-                                <p>1. Enter some criteria to search for the type of dogs you want to adopt </p>
-                                <p>2. Select the ones you might consider adopting</p>
-                                <p>3. Once you are ready, click the "FIND A MATCH" button</p>
-                            </div>
-                        </PopupModal>}
-                </div>
-
-
+                <DogListInstructions />
 
             </div>
             {match &&

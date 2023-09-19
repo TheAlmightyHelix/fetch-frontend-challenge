@@ -13,7 +13,8 @@ export const useDogs = (searchParams: SearchCriteriaT) => {
     const [prevURL, setPrev] = useState<string>()
     const [nextURL, setNext] = useState<string>()
     const [total, setTotal] = useState<number>()
-    const [data, setData] = useState<DogT[]>();
+    const [data, setData] = useState<DogT[]>()
+    const [serverError, setServerError] = useState<number>()
 
     // perform initial search
     useEffect(() => {
@@ -21,11 +22,22 @@ export const useDogs = (searchParams: SearchCriteriaT) => {
     }, [searchParams])
 
     const initialSearch = async () => {
-        const { prev, next, resultIds, total }: DogSearchResponseT = await searchDogs(searchParams)
+        const searchRes = await searchDogs(searchParams)
+        if (typeof searchRes === 'number') {
+            setServerError(searchRes)
+            return
+        }
+
+        const { prev, next, resultIds, total }: DogSearchResponseT = searchRes
         setPrev(prev)
         setNext(next)
         setTotal(total)
         const dogs = await getDogs(resultIds)
+        if (typeof dogs === 'number') {
+            setServerError(dogs)
+            return
+        }
+        setServerError(undefined)
         setData(dogs)
     }
 
@@ -39,13 +51,25 @@ export const useDogs = (searchParams: SearchCriteriaT) => {
         const res = await fetch(BASE_URL + nextURL, {
             credentials: 'include'
         })
+
+        if (!res.ok) {
+            setServerError(res.status)
+            return false
+        }
+
         const { prev, next, resultIds }: DogSearchResponseT = await res.json()
 
         setPrev(prev)
         setNext(next)
 
         const dogs = await getDogs(resultIds)
+        if (typeof dogs === 'number') {
+            setServerError(dogs)
+            return
+        }
+
         setData(dogs)
+        setServerError(undefined)
         return dogs
     }
 
@@ -58,11 +82,21 @@ export const useDogs = (searchParams: SearchCriteriaT) => {
         const res = await fetch(BASE_URL + prevURL, {
             credentials: 'include'
         })
+        if (!res.ok) {
+            setServerError(res.status)
+            return false
+        }
         const { prev, next, resultIds }: DogSearchResponseT = await res.json()
         setPrev(prev)
         setNext(next)
+
         const dogs = await getDogs(resultIds)
+        if (typeof dogs === 'number') {
+            setServerError(dogs)
+            return
+        }
         setData(dogs)
+        setServerError(undefined)
         return dogs
     }
 
@@ -87,5 +121,5 @@ export const useDogs = (searchParams: SearchCriteriaT) => {
         return false
     }
 
-    return { hasNext, hasPrev, getNextPage, getPrevPage, total, data }
+    return { hasNext, hasPrev, getNextPage, getPrevPage, total, data, serverError }
 }

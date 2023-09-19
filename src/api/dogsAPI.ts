@@ -43,7 +43,12 @@ export const searchDogs = async (params: SearchCriteriaT) => {
             "Access-Control-Allow-Origin": "*",
         },
         credentials: 'include'
-    }).then(res => res.json())
+    }).then(res => {
+        if (res.ok)
+            return res.json()
+        else
+            return res.status
+    })
 }
 
 /**
@@ -60,7 +65,12 @@ export const getDogs = async (dogs: DogIdT[]) => {
         },
         body: JSON.stringify(dogs),
         credentials: 'include'
-    }).then(res => res.json())
+    }).then(res => {
+        if (res.ok)
+            return res.json()
+        else
+            return res.status
+    })
 }
 
 /**

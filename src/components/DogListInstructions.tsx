@@ -7,7 +7,7 @@ export default function DogListInstructions() {
     const [displayInstructions, setDisplayInstructions] = useState(false)
 
     return (
-        <>
+        <div>
             <Button
                 additionalStyling={interactableColors.proceed}
                 onclick={() => { setDisplayInstructions(true) }}
@@ -25,6 +25,6 @@ export default function DogListInstructions() {
                         <p>3. Once you are ready, click the "FIND A MATCH" button</p>
                     </div>
                 </PopupModal>}
-        </>
+        </div>
     )
 }

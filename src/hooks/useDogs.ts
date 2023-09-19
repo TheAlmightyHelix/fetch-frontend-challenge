@@ -79,12 +79,9 @@ export const useDogs = (searchParams: SearchCriteriaT) => {
      * @returns true if the next page exists, false otherwise
      */
     const hasNext = () => {
-        console.log('nextURL', nextURL)
-        console.log('prevURL', prevURL)
         if (!nextURL) return false
 
         const from = (new URL(BASE_URL + nextURL).searchParams.get('from'))
-        console.log(from, total)
         if (from && total && (parseInt(from) < total)) return true
 
         return false

@@ -26,7 +26,7 @@ export default function BreedSelector({ updateBreedsSelection }: PropsWithChildr
 
     return (<>
         <Button
-            additionalStyling={interactableColors.neutral}
+            additionalStyling={interactableColors.proceed}
             onclick={() => { setDisplayBreedsPopup(true) }}
         >
             SELECT BREEDS

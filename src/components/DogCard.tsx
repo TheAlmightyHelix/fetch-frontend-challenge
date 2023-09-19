@@ -25,7 +25,7 @@ export default function DogCard({ dog, favorited, toggleFavorite }: PropsWithChi
                     <span className={boldSerif}>{dog.name}</span>
                     <span>{dog.age} y.o.</span>
                 </div>
-                <div className={oneLine}>{dog.breed}</div>
+                <div className={oneLine}><span title={dog.breed}>{dog.breed}</span></div>
                 <div>{dog.zip_code}</div>
                 {favorited && <div className={favoritedIconStyle}>🥰</div>}
             </div>

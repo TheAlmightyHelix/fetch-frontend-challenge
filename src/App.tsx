@@ -18,7 +18,7 @@ function App() {
       {authenticated ?
         <>
           <DogList />
-          <div className='fixed bottom-4 right-8'>
+          <div className='fixed bottom-4 right-8 z-10'>
             <Button
               onclick={handleLogout}
               additionalStyling={interactableColors.warning}

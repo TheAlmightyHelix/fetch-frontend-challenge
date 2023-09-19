@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import { interactableColors } from "../lib/styles";
+import { interactableColors, rowStyle } from "../lib/styles";
 import Button from "./atomic/Button";
 import PopupModal from "./atomic/PopupModal";
 
@@ -29,12 +29,18 @@ export default function BreedSelectorPopup({ options, selections, toggleSelectio
                     </Button>
                 ))}
             </div>
-            <div className={`flex flex-row justify-end`}>
+            <div className={rowStyle}>
                 <Button
-                    additionalStyling={interactableColors.proceed}
+                    additionalStyling={interactableColors.warning}
                     onclick={flushSelections}
                 >
-                    CLEAR SLECETIONS
+                    CLEAR SELECTIONS
+                </Button>
+                <Button
+                    additionalStyling={interactableColors.proceed}
+                    onclick={closePopup}
+                >
+                    DONE
                 </Button>
             </div>
         </PopupModal>

@@ -39,9 +39,9 @@ export const logout = () => {
         },
     }).then(res => {
         if (!res.ok) {
-            throw res.statusText
+            throw res
         }
-    }).catch(reason => {
-        console.log(reason)
+    }).catch(res => {
+        alert('There\' some problem with logging out')
     })
 }
